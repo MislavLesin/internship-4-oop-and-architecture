@@ -21,7 +21,7 @@ namespace DUMP_Dungeon_Crawler.Presentation
             while(userInput != 0)
             {
                 Console.Clear();
-                LoadListWithEnemiesAndPrint(5);
+                LoadListWithEnemiesAndPrint(10);
                 PrettyPrint.PressAnyKeyToContinue();
                 player = PlayerInitialization();       
                 if (player == null)
