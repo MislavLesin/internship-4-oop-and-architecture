@@ -15,9 +15,9 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public Brute(double multiplyer)
         {
             {
-                HealthPoints = (int)((double)65 * multiplyer);
+                HealthPoints = (int)((double)55 * multiplyer);
                 HpLimit = HealthPoints;
-                Damage = (int)((double)14 * multiplyer);
+                Damage = (int)((double)20 * multiplyer);
                 Name = "Brute";
                 ExpirienceWorth = (int)((double)45 * multiplyer);
                 Type = Enums.CharactersEnum.Brute;

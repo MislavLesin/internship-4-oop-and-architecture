@@ -15,14 +15,14 @@ namespace DUMP_Dungeon_Crawler.Presentation
             Enemy currentEnemy;
             Friendly player;
             bool gameWon = false;
-            Console.WriteLine("Welcome to Dungeon Crawler");
-            PressAnyKeyToContinue();
+            PrettyPrint.PrettyPrintStartScreen();
+            PrettyPrint.PressAnyKeyToContinue();
             int userInput = 1;
             while(userInput != 0)
             {
                 Console.Clear();
-                LoadListWithEnemiesAndPrint(3);
-                PressAnyKeyToContinue();
+                LoadListWithEnemiesAndPrint(5);
+                PrettyPrint.PressAnyKeyToContinue();
                 player = PlayerInitialization();       
                 if (player == null)
                     break;
@@ -43,14 +43,15 @@ namespace DUMP_Dungeon_Crawler.Presentation
                        
                         Console.BackgroundColor = ConsoleColor.Red;
                         Console.WriteLine("You Died!");
-                        PressAnyKeyToContinue();
+                        PrettyPrint.PressAnyKeyToContinue();
                         break;
                     }
                     else
                     {
+                        player.EnemyKilled(currentEnemy);
                         PrettyPrint.PrettyPrintLevelUp(player, currentEnemy);
-                        player.EnemyKilled(currentEnemy);    
-                        PressAnyKeyToContinue();
+                        
+                        PrettyPrint.PressAnyKeyToContinue();
                         roundCounter++;
                     }
                 }
@@ -68,19 +69,14 @@ namespace DUMP_Dungeon_Crawler.Presentation
             }
             Console.WriteLine("Exitting...");
         }
-        public static void PressAnyKeyToContinue()
-        {
-            Console.WriteLine("\nPress Any key to continue");
-            Console.ReadKey();
-            Console.Clear();
-        }
         public static void LoadListWithEnemiesAndPrint(int numberOfENemies)
         {
+            PrettyPrint.PrettyPrintMessage("\nThere are " + numberOfENemies + " Enemies standing before you!" + "\nCan you defeat them all?", ConsoleColor.Red);
             for (var i = 0; i < numberOfENemies; i++)
             {
                 RandomGeneratorClass.RandomEnemyInitializationToEnemieList();
             }
-            PrintEnemyList(Enemy.EnemiesList);
+            PrettyPrint.PrintEnemyList(Enemy.EnemiesList);
         }
         public static int ReturnRoundWinner(int userAction, int enemyAction)
         {
@@ -105,7 +101,7 @@ namespace DUMP_Dungeon_Crawler.Presentation
             bool oponentKilled = false;
             while(oponentKilled == false)
             {
-                PressAnyKeyToContinue();
+                PrettyPrint.PressAnyKeyToContinue();
                 PrettyPrint.PrettyPrintRoundStatus(user, oponent);
                 var action = UserSelectFightDecision();
                 int enemyAction = RandomGeneratorClass.RandomEnemyTurn();
@@ -114,8 +110,8 @@ namespace DUMP_Dungeon_Crawler.Presentation
                 if (fightOucome == 1)     
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nWon round!");
-                    if (user.WonRound(oponent) == true)
+                    Console.WriteLine("\nWon round!\n");
+                    if (user.WonRound_CheckIfKilled(oponent) == true)
                     {
                         Console.ResetColor();
                         return true;
@@ -160,10 +156,10 @@ namespace DUMP_Dungeon_Crawler.Presentation
         static Friendly PlayerInitialization()
         {
             Friendly player;
-            Console.WriteLine("Select your hero:");
-            Console.WriteLine("1 - Warrior");
-            Console.WriteLine("2 - Mage");
-            Console.WriteLine("3 - Ranger");
+            PrettyPrint.PrettyPrintMessage("Select your hero:", ConsoleColor.Yellow);
+            PrettyPrint.PrettyPrintMessage("1 - Warrior", ConsoleColor.Red);
+            PrettyPrint.PrettyPrintMessage("2 - Mage", ConsoleColor.Magenta);
+            PrettyPrint.PrettyPrintMessage("3 - Ranger", ConsoleColor.Cyan);
             var userInput = UserInputVerificationInt(1, 3) - 1;
             if(userInput == -1)
             {

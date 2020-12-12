@@ -1,5 +1,6 @@
 ﻿
 using DUMP_Dungeon_Crawler.Data.Enums;
+using DUMP_Dungeon_Crawler.Data.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,7 +16,7 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         }
        
 
-        public virtual void IsKilled(Friendly userHero) 
+        public virtual void IsKilledBy(Friendly userHero) 
         {
             userHero.EnemyKilled(this);
             EnemiesList.Remove(this);
@@ -34,10 +35,10 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public bool ReciveDamage(int dmgRecived, Friendly userHero) 
         {
             HealthPoints -= dmgRecived;
-            Console.WriteLine(Name + " -" + dmgRecived + " Hp");
+            PrettyPrint.PrettyPrintMessage("\n"+Name + " -" + dmgRecived + " Hp",ConsoleColor.DarkGreen);
             if (HealthPoints <= 0)
             {
-                IsKilled(userHero);
+                IsKilledBy(userHero);
                 return true;
             }
             else

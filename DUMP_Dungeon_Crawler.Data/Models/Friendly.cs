@@ -1,4 +1,5 @@
 ﻿using DUMP_Dungeon_Crawler.Data.Enums;
+using DUMP_Dungeon_Crawler.Data.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -14,31 +15,38 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public int XpLimit { get; set; } = 80;
 
        
-
         public int Level { get; set; } = 1;
 
 
         public void EnemyKilled(Enemy oponent)
         {
-            
             LevelUp(oponent.ExpirienceWorth);
-            int hpIncrease = (int)((float)(HpLimit * 0.25));
+            RegenHealtAfterKill();
+            Enemy.EnemiesList.Remove(oponent);
+        }
+
+        public void RegenHealtAfterKill()
+        {
+            int hpIncrease = (int)((float)HpLimit * 0.25);
             if (HealthPoints > (HpLimit - hpIncrease))
                 HealthPoints = HpLimit;
             else
             {
                 HealthPoints += hpIncrease;
             }
-            Console.WriteLine(oponent.Name+" killed \n");
-            Enemy.EnemiesList.Remove(oponent);
         }
 
-        public Friendly(){}
+        public Friendly()
+        {
+            XpLimit = 80;
+        }
         public virtual void LevelUp(int expirience)
         {
             Expirience += expirience;
             while (Expirience > XpLimit)
             {
+                HpLimit = (int)(HpLimit * 1.2);
+                HealthPoints = HpLimit;
                 Expirience -= XpLimit;
                 Level++;
                 Damage = (int)((float)Damage * 1.3);
@@ -55,7 +63,7 @@ namespace DUMP_Dungeon_Crawler.Data.Models
             if (HealthPoints <= 0)
                 isKilled = true;
         }
-        public virtual bool WonRound(Enemy oponent)   
+        public virtual bool WonRound_CheckIfKilled(Enemy oponent)   
         {
             if (oponent.ReciveDamage(Damage, this) == true)
                 return true;

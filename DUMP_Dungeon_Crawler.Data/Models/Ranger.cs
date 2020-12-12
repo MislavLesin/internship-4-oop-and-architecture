@@ -1,4 +1,5 @@
 ﻿using DUMP_Dungeon_Crawler.Data.Enums;
+using DUMP_Dungeon_Crawler.Data.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -16,41 +17,51 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public Ranger(string playerName)
         {
             Name = playerName;
-            HealthPoints = 150;
-            HpLimit = 150;
-            Damage = 29;
+            HealthPoints = 125;
+            HpLimit = 125;
+            Damage = 23;
             Type = CharactersEnum.Ranger;
-            CritChance = 0.3;
+            CritChance = 0.25;
             StunChance = 0.25;
         }
 
-        public override bool WonRound(Enemy oponent)
+        public override bool WonRound_CheckIfKilled(Enemy oponent)
         {
-            Random rnd = new Random();
-            if(rnd.NextDouble() <= CritChance)
+            if(RandomGeneratorClass.RandomCriticalChance(CritChance))
             {
+                PrettyPrint.PrettyPrintMessage("Crit Attack!",ConsoleColor.DarkGreen);
                 if (oponent.ReciveDamage(Damage * 2, this) == true)
                     return true;
-                Console.WriteLine("Crit Attack!");
-                return false;
+                else
+                    return false;
             }
-            if (rnd.NextDouble() <= StunChance)
+            if (RandomGeneratorClass.RandomCriticalChance( StunChance))
             {
-                Console.WriteLine("Stun Attack!!!");
+                PrettyPrint.PrettyPrintMessage("Stun Attack!!!",ConsoleColor.Red);
                 if (oponent.ReciveDamage(Damage, this) == true)
+                {
                     return true;
+                }
+
                 else
                 {
-                    if (this.WonRound(oponent) == true)
+                    PrettyPrint.PrettyPrintMessage("\nEnemy is Stunned! \nNext Round is guaranteed win!! \n", ConsoleColor.Yellow);
+                    if (this.WonRound_CheckIfKilled(oponent) == true)
+                    {
+                        Console.WriteLine();
                         return true;
+                    }
                     else
+                    {
+                        Console.WriteLine();
                         return false;
+                    }
                 }
-                    
+               
             }
             if (oponent.ReciveDamage(Damage, this) == true)
                 return true;
-            Console.WriteLine("Classic Attack");
+            Console.WriteLine("Classic Attack\n");
             return false;
         }
         public override void LevelUp(int expirience)
@@ -58,6 +69,8 @@ namespace DUMP_Dungeon_Crawler.Data.Models
             Expirience += expirience;
             while (Expirience > XpLimit)
             {
+                HpLimit = (int)(HpLimit * 1.2);
+                HealthPoints = HpLimit;
                 Expirience -= XpLimit;
                 Level++;
                 Damage = (int)((float)Damage * 1.3);
@@ -66,15 +79,15 @@ namespace DUMP_Dungeon_Crawler.Data.Models
                 StunChance = StunChance * 1.3;
                 Console.WriteLine("\nLevel Up!");
                 Console.WriteLine(Name + " is now level " + Level);
-                Console.WriteLine($"\nCrit chance is now {CritChance}, Stun Chance is now {StunChance}");
+                Console.WriteLine($"\nCrit chance is now {(int) (CritChance * 100)}% , Stun Chance is now {(int) (StunChance * 100) / 2}%");
             }
         }
 
         public override string ToString()
         {
             return $"{base.ToString()}" +
-                $"\nCrit Chance - {CritChance}\n" +
-                $"Stun Chance - {StunChance}";
+                $"\nCrit Chance - {(int)(CritChance * 100)}%\n" +
+                $"Stun Chance - {(int) (StunChance * 100) / 2}%";
         }
     }
 }

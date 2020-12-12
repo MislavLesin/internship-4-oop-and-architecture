@@ -7,25 +7,21 @@ namespace DUMP_Dungeon_Crawler.Data.Models
 {
     public class Warrior : Friendly
     {
-        public void RageAttack ()
-        {
-            Console.WriteLine("Attacking in Rage mode!! \n");
-        }
         
         public Warrior(string PlayerName)
         {
             Name = PlayerName;
-            HealthPoints = 200;
-            HpLimit = 200;
+            HealthPoints = 250;
+            HpLimit = 250;
             Damage = 17;
             Type = CharactersEnum.Warrior;
         }
-        public override bool WonRound(Enemy oponent)
+        public override bool WonRound_CheckIfKilled(Enemy oponent)
         {
-            Console.WriteLine("0 - Classic Attack");
-            Console.WriteLine("1- Rage Atack");
-            var decision = UserInputVerification.UserInputVerificationInt(0, 1);
-            if(decision == 0)
+            Console.WriteLine("1 - Classic Attack");
+            Console.WriteLine("2- Rage Atack");
+            var decision = UserInputVerification.UserInputVerificationInt(1, 2);
+            if(decision == 1)
             {
                 if (oponent.ReciveDamage(Damage, this) == true)
                     return true;

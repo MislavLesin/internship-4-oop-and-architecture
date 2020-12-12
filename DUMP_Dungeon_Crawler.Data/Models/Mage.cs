@@ -21,10 +21,10 @@ namespace DUMP_Dungeon_Crawler.Data.Models
             HpLimit = 100;
             Damage = 32;
             Type = CharactersEnum.Mage;
-            Mana = 5;
-            manaLimit = 5;
+            Mana = 4;
+            manaLimit = 4;
         }
-        public override bool WonRound(Enemy oponent)
+        public override bool WonRound_CheckIfKilled(Enemy oponent)
         {
             if(Mana > 0)
             {
@@ -60,6 +60,8 @@ namespace DUMP_Dungeon_Crawler.Data.Models
             Expirience += expirience;
             while (Expirience > XpLimit)
             {
+                HpLimit = (int)(HpLimit * 1.2);
+                HealthPoints = HpLimit;
                 Expirience -= XpLimit;
                 Level++;
                 Damage = (int)((float)Damage * 1.3);

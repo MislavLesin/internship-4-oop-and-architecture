@@ -33,13 +33,20 @@ namespace DUMP_Dungeon_Crawler.Data.Models
                 Console.WriteLine("Witch attacking standardly");
             }
         }
-        public override void IsKilled(Friendly userHero)
+        public override void IsKilledBy(Friendly userHero)
         {
             userHero.EnemyKilled(this);
             EnemiesList.Remove(this);
+            WitchScream();
             RandomGeneratorClass.RandomEnemyInitializationToEnemieList();
             RandomGeneratorClass.RandomEnemyInitializationToEnemieList();
 
+        }
+
+        public void WitchScream()
+        {
+            PrettyPrint.PrettyPrintMessage("The witch has been killed!!\n2 new monsters Spawned!", ConsoleColor.Red);
+            PrettyPrint.PrintEnemyList(EnemiesList);
         }
 
         public void Djumbus( Friendly userHero, int hpToSet)
@@ -47,8 +54,8 @@ namespace DUMP_Dungeon_Crawler.Data.Models
             userHero.HealthPoints = hpToSet;
             foreach (var monster in EnemiesList)
                 monster.HealthPoints = hpToSet;
-            Console.WriteLine("Djumbus hahahahahhahahhahahaahah");
-            Console.WriteLine("All Charracters have "+ hpToSet+ " Hp");
+            PrettyPrint.PrettyPrintMessage("Djumbus hahahahahhahahhahahaahah \nAll Charracters have " + hpToSet +
+                " Hp", ConsoleColor.DarkMagenta);
         }
         public override string ToString()
         {
