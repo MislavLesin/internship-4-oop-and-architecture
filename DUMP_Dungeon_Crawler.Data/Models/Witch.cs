@@ -60,7 +60,7 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public override string ToString()
         {
             return $"{base.ToString()}" +
-                $"\nDjumbus Chance - {DjumbusChance * 100}%";
+                $"\nDjumbus Chance - {(int)(DjumbusChance * 100)}%";
         }
     }
 }

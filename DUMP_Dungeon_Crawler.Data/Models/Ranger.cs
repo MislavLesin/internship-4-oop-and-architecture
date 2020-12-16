@@ -17,8 +17,8 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public Ranger(string playerName)
         {
             Name = playerName;
-            HealthPoints = 125;
-            HpLimit = 125;
+            HealthPoints = 90;
+            HpLimit = 90;
             Damage = 23;
             Type = CharactersEnum.Ranger;
             CritChance = 0.25;

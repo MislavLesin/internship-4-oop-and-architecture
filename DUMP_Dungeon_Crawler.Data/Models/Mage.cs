@@ -17,8 +17,8 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public Mage (string playerName)
         {
             Name = playerName;
-            HealthPoints = 100;
-            HpLimit = 100;
+            HealthPoints = 75;
+            HpLimit = 75;
             Damage = 32;
             Type = CharactersEnum.Mage;
             Mana = 4;
@@ -55,18 +55,19 @@ namespace DUMP_Dungeon_Crawler.Data.Models
             }
            
         }
-        public override void LevelUp(int expirience)
+        public override void LevelUp(int xpEarned)
         {
-            Expirience += expirience;
+            Expirience += xpEarned;
             while (Expirience > XpLimit)
             {
                 HpLimit = (int)(HpLimit * 1.2);
-                HealthPoints = HpLimit;
+                HealthPoints += 25;
+                if (HealthPoints > HpLimit)
+                    HealthPoints = HpLimit;
                 Expirience -= XpLimit;
                 Level++;
                 Damage = (int)((float)Damage * 1.3);
                 manaLimit++;
-                Mana = manaLimit;
                 XpLimit = (int)((float)XpLimit * 1.2);
                 Console.WriteLine("\nLevel Up!");
                 Console.WriteLine(Name + " is now level " + Level);

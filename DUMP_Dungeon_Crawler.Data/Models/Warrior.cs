@@ -11,8 +11,8 @@ namespace DUMP_Dungeon_Crawler.Data.Models
         public Warrior(string PlayerName)
         {
             Name = PlayerName;
-            HealthPoints = 250;
-            HpLimit = 250;
+            HealthPoints = 150;
+            HpLimit = 150;
             Damage = 17;
             Type = CharactersEnum.Warrior;
         }
