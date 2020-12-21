@@ -8,8 +8,4 @@
     <ProjectReference Include="..\DUMP_Dungeon_Crawler.Data\DUMP_Dungeon_Crawler.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
